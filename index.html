@@ -150,8 +150,14 @@
     .reveal.visible { opacity:1; transform:none; }
 
     @media (max-width: 768px) {
+      .top-bar { flex-direction: column; gap: 0.5rem; text-align: center; font-size: 0.75rem; }
       #about, #location { grid-template-columns: 1fr; gap: 3rem; }
-      .nav-links { display: none; }
+      nav { flex-wrap: wrap; gap: 1rem; justify-content: center; }
+      .nav-links { overflow-x: auto; max-width: 100%; padding-bottom: 0.5rem; justify-content: flex-start; gap: 1.5rem; }
+      .nav-links::-webkit-scrollbar { height: 4px; }
+      .nav-links::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
+      .nav-logo { font-size: 1.1rem; }
+      .nav-book-btn { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
       section { padding: 4rem 6%; }
     }
   </style>
@@ -178,8 +184,8 @@
       <li><a href="#gallery">Gallery</a></li>
       <li><a href="#attractions">Explore</a></li>
       <li><a href="#location">Location</a></li>
-      <li><a href="#contact" class="nav-book-btn">Book Now</a></li>
     </ul>
+    <a href="#contact" class="nav-book-btn">Book Now</a>
   </nav>
 </header>
 
