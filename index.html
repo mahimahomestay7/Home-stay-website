@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mahima Homestay — Bylukuppa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #f9f6f0; --warm-white: #fdfcfb;
+      --earth: #8b6e50; --earth-light: #c29b76;
+      --forest: #2b4530; --forest-light: #4c7454;
+      --gold: #d4af37; --text-dark: #1f1b18;
+      --text-mid: #5c544d; --text-light: #8f857d;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Outfit', sans-serif; background: var(--warm-white); color: var(--text-dark); overflow-x: hidden; }
+
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    }
+    .top-bar {
+      background: var(--text-dark); padding: 0.5rem 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem; letter-spacing: 0.05em; color: rgba(255,255,255,0.8);
+    }
+    .top-bar a { color: var(--gold); text-decoration: none; transition: color 0.2s; font-weight: 500; }
+    .top-bar a:hover { color: #fff; }
+    
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.8rem 5%;
+      background: rgba(253,252,251,0.95); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(139,110,80,0.12);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; }
+    .nav-logo-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--earth); font-weight: 700; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a { text-decoration: none; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-mid); font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--earth); }
+    
+    .nav-book-btn { background: #d32f2f; color: #fff !important; padding: 0.6rem 1.4rem; border-radius: 4px; font-weight: 600 !important; transition: background 0.2s, transform 0.2s; display: inline-block; }
+    .nav-book-btn:hover { background: #b71c1c; transform: translateY(-2px); }
+
+    #hero {
+      height: 100vh; min-height: 620px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      background: linear-gradient(160deg, #2d4a32 0%, #4a3020 55%, #1e3025 100%);
+    }
+    .hero-texture {
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-leaves {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 80% 30%, rgba(90,138,96,0.25) 0%, transparent 65%),
+                  radial-gradient(ellipse 40% 50% at 15% 70%, rgba(58,90,64,0.3) 0%, transparent 65%);
+    }
+    .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 1.5rem; animation: fadeUp 1s ease both; }
+    .hero-eyebrow { font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem,7vw,5.5rem); color: #fff; line-height: 1.1; }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.65); letter-spacing: 0.06em; margin-top: 1rem; margin-bottom: 2.5rem; }
+    .hero-cta { display: inline-block; padding: 0.85rem 2.6rem; background: var(--gold); color: var(--text-dark); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500; border-radius: 2px; transition: background 0.25s, transform 0.2s; }
+    .hero-cta:hover { background: #d9a85c; transform: translateY(-2px); }
+    .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.4rem; color: rgba(255,255,255,0.4); font-size: 0.7rem; letter-spacing: 0.2em; animation: bounce 2s infinite; }
+    .scroll-hint span { width: 1px; height: 40px; background: rgba(255,255,255,0.25); }
+
+    section { padding: 6rem 5%; }
+    .section-label { font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--forest-light); margin-bottom: 0.8rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,4vw,2.8rem); color: var(--text-dark); line-height: 1.2; margin-bottom: 1.5rem; }
+
+    #about { background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-card { background: var(--forest); border-radius: 4px; padding: 3rem 2.5rem; color: #fff; position: relative; overflow: hidden; }
+    .about-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+    .about-card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .about-card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 0.8rem; }
+    .about-card p { color: rgba(255,255,255,0.75); line-height: 1.7; font-size: 0.92rem; }
+    .about-badge { position: absolute; bottom: -1.5rem; right: 2rem; background: var(--gold); color: var(--text-dark); width: 90px; height: 90px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; text-align: center; line-height: 1.3; box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+    .about-text p { color: var(--text-mid); line-height: 1.85; font-size: 0.97rem; margin-bottom: 1rem; }
+
+    #features { background: var(--warm-white); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .feature-card { padding: 2rem 1.8rem; border: 1px solid rgba(122,92,63,0.15); border-radius: 4px; background: #fff; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
+    .feature-card:hover { border-color: var(--earth-light); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(122,92,63,0.12); }
+    .feature-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+    .feature-card h4 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.87rem; color: var(--text-light); line-height: 1.6; }
+
+    /* GALLERY */
+    #gallery { background: var(--cream); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .gallery-item { position: relative; overflow: hidden; border-radius: 6px; aspect-ratio: 4/3; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .gallery-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .gallery-item:hover .gallery-img { transform: scale(1.08); }
+    .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: flex-end; padding: 1.5rem; }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay h4 { color: #fff; font-family: 'Playfair Display', serif; font-size: 1.3rem; letter-spacing: 0.05em; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+    /* ATTRACTIONS */
+    #attractions { background: var(--cream); }
+    .attractions-intro { max-width: 640px; margin-bottom: 3rem; }
+    .attractions-intro p { color: var(--text-mid); line-height: 1.8; }
+    .attractions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px,1fr)); gap: 1.8rem; }
+    .attraction-card { background: #fff; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 18px rgba(0,0,0,0.07); transition: transform 0.25s, box-shadow 0.25s; display: flex; flex-direction: column; }
+    .attraction-card:hover { transform: translateY(-5px); box-shadow: 0 16px 36px rgba(0,0,0,0.12); }
+    .attraction-img { width: 100%; height: 185px; object-fit: cover; display: block; background: #e5e0d8; }
+    .attraction-body { padding: 1.4rem 1.6rem; flex: 1; display: flex; flex-direction: column; }
+    .attraction-badge { display: inline-block; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; background: var(--forest); color: #fff; padding: 0.22rem 0.65rem; border-radius: 20px; margin-bottom: 0.75rem; width: fit-content; }
+    .attraction-card h4 { font-family: 'Playfair Display', serif; font-size: 1.08rem; margin-bottom: 0.45rem; color: var(--text-dark); }
+    .attraction-card p { font-size: 0.85rem; color: var(--text-light); line-height: 1.65; flex: 1; }
+    .attraction-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 1.1rem; padding-top: 0.9rem; border-top: 1px solid rgba(122,92,63,0.1); }
+    .attraction-dist { font-size: 0.74rem; color: var(--earth); font-weight: 500; }
+    .attraction-rating { font-size: 0.76rem; color: var(--gold); font-weight: 600; }
+    .attraction-link { display: inline-block; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--forest); text-decoration: none; border-bottom: 1px solid var(--forest-light); padding-bottom: 1px; transition: color 0.2s; margin-top: 0.5rem; width: fit-content; }
+    .attraction-link:hover { color: var(--earth); }
+
+    #location { background: var(--earth); color: #fff; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    #location .section-label { color: var(--gold); }
+    #location .section-title { color: #fff; }
+    .location-detail { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.8rem; }
+    .location-icon { width: 44px; height: 44px; min-width: 44px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .location-detail h4 { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+    .location-detail p, .location-detail a { color: rgba(255,255,255,0.85); font-size: 0.95rem; line-height: 1.5; text-decoration: none; }
+    .location-detail a:hover { color: var(--gold); }
+    .map-wrap { background: rgba(0,0,0,0.2); border-radius: 4px; overflow: hidden; height: 360px; border: 1px solid rgba(255,255,255,0.1); }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; }
+
+    #contact { background: var(--cream); text-align: center; }
+    .contact-grid { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 3rem; }
+    .contact-card { background: #fff; padding: 2.5rem 3rem; border-radius: 4px; min-width: 240px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: transform 0.25s; }
+    .contact-card:hover { transform: translateY(-4px); }
+    .contact-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+    .contact-card h4 { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.6rem; }
+    .contact-card a { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--earth); text-decoration: none; }
+    .contact-card a:hover { color: var(--forest); }
+    .book-btn { display: inline-block; margin-top: 3.5rem; padding: 1rem 3.5rem; background: var(--forest); color: #fff; text-decoration: none; font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; border-radius: 2px; transition: background 0.25s, transform 0.2s; }
+    .book-btn:hover { background: var(--forest-light); transform: translateY(-2px); }
+
+    footer { background: var(--text-dark); color: rgba(255,255,255,0.45); text-align: center; padding: 2rem 5%; font-size: 0.8rem; letter-spacing: 0.08em; }
+    footer span { color: var(--gold); }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+    @keyframes bounce { 0%,100% { transform:translateX(-50%) translateY(0); } 50% { transform:translateX(-50%) translateY(6px); } }
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+
+    @media (max-width: 768px) {
+      #about, #location { grid-template-columns: 1fr; gap: 3rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 6%; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span class="phone-box" style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.6rem; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.4rem;">📞 <a href="tel:+919731443441">+91 97314 43441</a></span>
+    </div>
+    <div class="top-bar-right">
+      <span>✉️ <a href="mailto:mahimahomestay7@gmail.com">mahimahomestay7@gmail.com</a></span>
+    </div>
+  </div>
+  <nav>
+    <a href="#" class="nav-brand">
+      <img src="Logo.jpeg" alt="Mahima Homestay Logo" class="nav-logo-img">
+      <div class="nav-logo">Mahima Homestay</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#features">Amenities</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#attractions">Explore</a></li>
+      <li><a href="#location">Location</a></li>
+      <li><a href="#contact" class="nav-book-btn">Book Now</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section id="hero">
+  <div class="hero-texture"></div>
+  <div class="hero-leaves"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Welcome to</p>
+    <h1 class="hero-title">Mahima <em>Homestay</em></h1>
+    <p class="hero-sub">Bylukuppa · Karnataka · A home away from home</p>
+  </div>
+  <div class="scroll-hint"><span></span>Scroll</div>
+</section>
+
+<section id="about">
+  <div style="position:relative" class="reveal">
+    <div class="about-card">
+      <div class="about-card-icon">🏡</div>
+      <h3>Warm &amp; Welcoming</h3>
+      <p>Nestled in the serene surroundings of Bylukuppa, Mahima Homestay offers a cozy retreat for travellers seeking comfort, warmth, and an authentic local experience.</p>
+    </div>
+    <div class="about-badge">Stay<br>With Us</div>
+  </div>
+  <div class="about-text reveal">
+    <p class="section-label">Our Story</p>
+    <h2 class="section-title">Peace, Comfort &amp; Genuine Hospitality</h2>
+    <p>Mahima Homestay is a family-run accommodation in the heart of Bylukuppa — one of Karnataka's most tranquil destinations, known for its Tibetan monasteries and lush greenery.</p>
+    <p>We offer clean, comfortable rooms and genuine homely hospitality. Whether you're visiting the Golden Temple, exploring the local culture, or simply resting after a long journey — we make sure you feel right at home.</p>
+    <p>Our location near Salumarada Thimmakka Park makes us easily accessible and a perfect base for exploring everything the region has to offer.</p>
+  </div>
+</section>
+
+<section id="features">
+  <div style="max-width:700px;">
+    <p class="section-label reveal">What We Offer</p>
+    <h2 class="section-title reveal">Amenities &amp; Comforts</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal"><div class="feature-icon">🛏️</div><h4>2 Spacious Bedrooms</h4><p>1 room with an attached bathroom. Clean and comfortable for a restful stay.</p></div>
+    <div class="feature-card reveal"><div class="feature-icon">🚿</div><h4>24/7 Hot Water Supply</h4><p>Enjoy continuous hot water access at any time of the day.</p></div>
+    <div class="feature-card reveal"><div class="feature-icon">📶</div><h4>Free High-Speed Wi-Fi</h4><p>Stay connected seamlessly throughout your stay with fast internet.</p></div>
+    <div class="feature-card reveal"><div class="feature-icon">🚗</div><h4>Ample Parking Space</h4><p>Safe and spacious parking area available for your vehicles.</p></div>
+    <div class="feature-card reveal"><div class="feature-icon">🍛</div><h4>Homely Food (Pre-order)</h4>
+      <p style="font-size:0.85rem; margin-top:0.4rem; line-height:1.6;">• Lunch &amp; Dinner available (pre-order 2 hrs before). Charges applicable.<br>• Special food can be prepared on prior intimation.<br>• Outside food ordering available on request.</p>
+    </div>
+    <div class="feature-card reveal"><div class="feature-icon">🕒</div><h4>Timings</h4><p><strong>Check-in:</strong> 12:00 P.M.<br><strong>Check-out:</strong> 11:00 A.M.</p></div>
+    <div class="feature-card reveal"><div class="feature-icon">🏢</div><h4>Separate Apartment in a Building</h4><p>Enjoy complete privacy in a fully independent apartment.</p></div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div style="text-align: center;">
+    <p class="section-label reveal">Our Spaces</p>
+    <h2 class="section-title reveal">Photo Gallery</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item reveal">
+      <img src="living hall.jpeg" alt="Living Hall" class="gallery-img" loading="lazy">
+      <div class="gallery-overlay"><h4>Living Hall</h4></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="bedroom-1.jpeg" alt="Bedroom 1" class="gallery-img" loading="lazy">
+      <div class="gallery-overlay"><h4>Bedroom 1</h4></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="bedroom-1.1.jpeg" alt="Bedroom 1 (View 2)" class="gallery-img" loading="lazy">
+      <div class="gallery-overlay"><h4>Bedroom 1</h4></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="bedoom-2.jpeg" alt="Bedroom 2" class="gallery-img" loading="lazy">
+      <div class="gallery-overlay"><h4>Bedroom 2</h4></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="bedroom-2.2.jpeg" alt="Bedroom 2 (View 2)" class="gallery-img" loading="lazy">
+      <div class="gallery-overlay"><h4>Bedroom 2</h4></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="Dining.jpeg" alt="Dining Area" class="gallery-img" loading="lazy">
+      <div class="gallery-overlay"><h4>Dining Area</h4></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="kitcchen.jpeg" alt="Kitchen" class="gallery-img" loading="lazy">
+      <div class="gallery-overlay"><h4>Kitchen</h4></div>
+    </div>
+  </div>
+</section>
+
+<section id="attractions">
+  <div class="attractions-intro">
+    <p class="section-label reveal">Explore Nearby</p>
+    <h2 class="section-title reveal">Tourist Attractions Around Us</h2>
+    <p class="reveal">Bylukuppa and the surrounding Coorg region are packed with serene, culturally rich destinations — all within easy reach from Mahima Homestay.</p>
+    <div class="reveal" style="margin-top: 1.5rem; background: rgba(212,175,55,0.1); border-left: 4px solid var(--gold); padding: 1rem 1.5rem; border-radius: 0 4px 4px 0;">
+      <h4 style="color: var(--earth); margin-bottom: 0.3rem;">🚕 Need a Cab?</h4>
+      <p style="font-size: 0.95rem; color: var(--text-mid); margin: 0;">We can arrange cab facilities for your sightseeing and travel needs at an additional charge. Just let us know in advance!</p>
+    </div>
+  </div>
+  <div class="attractions-grid">
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://lh3.googleusercontent.com/place-photos/AJRVUZPwxqO2ndlhLLZxaUcdxvixYKhMQapIBVQWiNZZwdXSqiLi_XGfIVH_TFo2cIOImnHS6eT8qpn0gazsElsUxoBLrfiRg2AvkjY7CgGeW7AfltrLwwumekRiEa3MSvl3TnklVJ9Mt2rv4ihQ=s800-w800-h600" alt="Namdroling Golden Temple" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Namdroling Golden Temple</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~42 km away</span>
+          <span class="attraction-rating">★ 4.8 &nbsp;(3500+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Namdroling%20Golden%20Temple%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://lh3.googleusercontent.com/place-photos/AJRVUZOHxDAp3l2sxYYhMMgt5l1Zk9MWs2HOJE94jCgxngg7JOvPA3tPZlM_RKqnx9WxH3ItqpmMU4MeRwoKlb51YaIT1vZHeur17A_-aU58zYHZQZV0sN1jdkK0esNFwZF0LOIuD5YkeTMHyGow8A=s800-w800-h600" alt="Fish Lake (2nd Camp Lake)" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Fish Lake (2nd Camp Lake)</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~53 km away</span>
+          <span class="attraction-rating">★ 4.7 &nbsp;(4500+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Fish%20Lake%20%282nd%20Camp%20Lake%29%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://lh3.googleusercontent.com/place-photos/AJRVUZOJzav-5rl-Iii1UvudwigEqkBgVpKkRNw2k0PEkSHlvrxyYThtavjpaJbASaKSgDcuJxL_nuXDuKVuBrz7j8cH4rhHBWfwIRrWyPJgr0sFuliQGqQJUUikBBL6neD9cwW9EHuSZsTlMtd1=s800-w800-h600" alt="Kaveri Nisargadhama" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Kaveri Nisargadhama</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~28 km away</span>
+          <span class="attraction-rating">★ 4.6 &nbsp;(500+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Kaveri%20Nisargadhama%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://lh3.googleusercontent.com/places/ANXAkqF-UKqll28PJENhGykdBL8CvS__EmFOEN9SQ2f6XBaViEV1IVyVvaXmYO5cSPj2q5bZZ-65HmpxpT3MgCsCC611pP4MsdctNoA=s800-w576-h324" alt="Nisargadhama Bird Park" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Nisargadhama Bird Park</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~51 km away</span>
+          <span class="attraction-rating">★ 4.3 &nbsp;(700+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Nisargadhama%20Bird%20Park%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://lh3.googleusercontent.com/place-photos/AJRVUZO93K4md4gLs_fcjFnS3jPIc_6rTw_oL69wFD9fXyoLRrz-bk1JGFdybWJo5KLXBPksvbXF2pbdt22HcMTRurjA5sVnEArV5Vky9i9Qwah1RNnWrAwYqRqG6D7sBJA48Yj2bNbbpxGeoqOovWZTSq96GA=s800-w800-h600" alt="Coorg Hanging Bridge" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Coorg Hanging Bridge</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~60 km away</span>
+          <span class="attraction-rating">★ 4.4 &nbsp;(2400+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Coorg%20Hanging%20Bridge%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Abbey_Falls_New.jpg/960px-Abbey_Falls_New.jpg" alt="Abbey Falls" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Abbey Falls</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~51 km away</span>
+          <span class="attraction-rating">★ 4.2 &nbsp;(1200+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Abbey%20Falls%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Raja_seat_madikeri.JPG" alt="Raja's Seat" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Raja's Seat</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~46 km away</span>
+          <span class="attraction-rating">★ 4.3 &nbsp;(2000+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Raja%27s%20Seat%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Kaveri_by_Dubare_Forest.jpg/960px-Kaveri_by_Dubare_Forest.jpg" alt="Dubare Elephant Camp" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Dubare Elephant Camp</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~41 km away</span>
+          <span class="attraction-rating">★ 4.3 &nbsp;(1300+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Dubare%20Elephant%20Camp%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Coorg_-_The_Scotland_of_India.jpg" alt="Mandalpatti Peak" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Mandalpatti Peak</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~51 km away</span>
+          <span class="attraction-rating">★ 4.5 &nbsp;(600+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Mandalpatti%20Peak%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Thalakkaveri_Temple%2C_Karnataka.jpg/960px-Thalakkaveri_Temple%2C_Karnataka.jpg" alt="Talakaveri (Talacauvery)" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Talakaveri (Talacauvery)</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~43 km away</span>
+          <span class="attraction-rating">★ 4.3 &nbsp;(900+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Talakaveri%20%28Talacauvery%29%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Iruppu_Falls_%2849099719332%29.jpg/960px-Iruppu_Falls_%2849099719332%29.jpg" alt="Iruppu Falls" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Iruppu Falls</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~19 km away</span>
+          <span class="attraction-rating">★ 4.3 &nbsp;(600+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Iruppu%20Falls%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Madikeri_Palace_now_used_as_district_administration_seat.jpg/960px-Madikeri_Palace_now_used_as_district_administration_seat.jpg" alt="Madikeri Fort" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Madikeri Fort</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~58 km away</span>
+          <span class="attraction-rating">★ 4.2 &nbsp;(700+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Madikeri%20Fort%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Mallalli_falls_1.jpg/960px-Mallalli_falls_1.jpg" alt="Mallalli Falls" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Mallalli Falls</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~37 km away</span>
+          <span class="attraction-rating">★ 4.8 &nbsp;(3400+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Mallalli%20Falls%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Coorg_-_The_Scotland_of_India.jpg" alt="Chiklihole Reservoir" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Chiklihole Reservoir</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~38 km away</span>
+          <span class="attraction-rating">★ 4.5 &nbsp;(1200+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Chiklihole%20Reservoir%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Harangi_Reservoir%2C_Coorg.jpg/960px-Harangi_Reservoir%2C_Coorg.jpg" alt="Harangi Dam" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Harangi Dam</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~40 km away</span>
+          <span class="attraction-rating">★ 4.3 &nbsp;(800+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Harangi%20Dam%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/9/91/Honnamana_Kere.jpg" alt="Honnamana Kere Lake" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Honnamana Kere Lake</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~27 km away</span>
+          <span class="attraction-rating">★ 4.4 &nbsp;(2200+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Honnamana%20Kere%20Lake%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Coorg_-_The_Scotland_of_India.jpg" alt="Omkareswara Temple" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Omkareswara Temple</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~53 km away</span>
+          <span class="attraction-rating">★ 4.8 &nbsp;(700+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Omkareswara%20Temple%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Coorg_-_The_Scotland_of_India.jpg" alt="Kotebetta Peak" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Kotebetta Peak</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~60 km away</span>
+          <span class="attraction-rating">★ 4.6 &nbsp;(1800+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Kotebetta%20Peak%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Nalknad_Palace_%28Kakkabe%29_-_Nalnad_Palace_%2889%29.jpg/960px-Nalknad_Palace_%28Kakkabe%29_-_Nalnad_Palace_%2889%29.jpg" alt="Nalknad Aramane Palace" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Nalknad Aramane Palace</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~52 km away</span>
+          <span class="attraction-rating">★ 4.5 &nbsp;(2200+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Nalknad%20Aramane%20Palace%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Coorg_-_The_Scotland_of_India.jpg" alt="Nehru Mantap" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Nehru Mantap</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~56 km away</span>
+          <span class="attraction-rating">★ 4.4 &nbsp;(2200+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Nehru%20Mantap%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Coorg_-_The_Scotland_of_India.jpg" alt="Padi Iggutappa Temple" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Padi Iggutappa Temple</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~18 km away</span>
+          <span class="attraction-rating">★ 4.8 &nbsp;(1500+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Padi%20Iggutappa%20Temple%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Somwarpet_Taluk.jpg" alt="Somwarpet" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Somwarpet</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~59 km away</span>
+          <span class="attraction-rating">★ 4.5 &nbsp;(2200+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Somwarpet%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Suntikoppa._Ayyappa_Swamy_temple.jpg/960px-Suntikoppa._Ayyappa_Swamy_temple.jpg" alt="Suntikoppa" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Suntikoppa</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~23 km away</span>
+          <span class="attraction-rating">★ 4.6 &nbsp;(1500+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Suntikoppa%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+    <div class="attraction-card reveal">
+      <img class="attraction-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Tadiandamol_Trek_25Aug_Pic_3_View_From_Top.jpg/960px-Tadiandamol_Trek_25Aug_Pic_3_View_From_Top.jpg" alt="Tadiandamol Trek" loading="lazy" onerror="this.style.background='#c8b89a'" />
+      <div class="attraction-body">
+        <span class="attraction-badge">Tourist Attraction</span>
+        <h4>Tadiandamol Trek</h4>
+        <p>A beautiful destination near Bylukuppa and Coorg. A highly recommended visit during your stay.</p>
+        <div class="attraction-meta">
+          <span class="attraction-dist">📍 ~40 km away</span>
+          <span class="attraction-rating">★ 4.8 &nbsp;(3000+ reviews)</span>
+        </div>
+        <a class="attraction-link" href="https://maps.google.com/?q=Tadiandamol%20Trek%20Coorg%20Karnataka" target="_blank" rel="noopener">View on Maps →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="location">
+  <div>
+    <p class="section-label reveal">Find Us</p>
+    <h2 class="section-title reveal">Our Location</h2>
+    <div class="location-detail reveal">
+      <div class="location-icon">📍</div>
+      <div><h4>Address</h4><p>Suryaputhra Enlite,<br>Honnur Gate Junction,<br>Bylukuppa – 571104, Karnataka</p></div>
+    </div>
+    <div class="location-detail reveal">
+      <div class="location-icon">🌳</div>
+      <div><h4>Landmark</h4><p>Next to Salumarada Thimmakka Park</p></div>
+    </div>
+    <div class="location-detail reveal">
+      <div class="location-icon">📞</div>
+      <div>
+        <h4 style="margin-top:0;">Call Us</h4><a href="tel:+919731443441">+91 97314 43441</a><br>
+        <h4 style="margin-top:0.8rem;">Alternative Number</h4><a href="tel:+919741882716">+91 97418 82716</a>
+      </div>
+    </div>
+    <div class="location-detail reveal">
+      <div class="location-icon">💬</div>
+      <div><h4>WhatsApp</h4><a href="https://wa.me/919731443441?text=Hello%20Mahima%20Homestay,%20I%20would%20like%20to%20book%20a%20stay." target="_blank">+91 97314 43441</a></div>
+    </div>
+    <div class="location-detail reveal">
+      <div class="location-icon">✉️</div>
+      <div><h4>Email</h4><a href="mailto:mahimahomestay7@gmail.com">mahimahomestay7@gmail.com</a></div>
+    </div>
+  </div>
+  <div class="map-wrap reveal">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d980!2d75.987609!3d12.435921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDI2JzA5LjMiTiA3NcKwNTknMTUuNCJF!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      title="Mahima Homestay Exact Location">
+    </iframe>
+  </div>
+</section>
+
+<section id="contact">
+  <p class="section-label reveal">Reach Out</p>
+  <h2 class="section-title reveal">Book Your Stay</h2>
+  <p class="reveal" style="color:var(--text-mid);max-width:520px;margin:0 auto;line-height:1.8;font-size:0.97rem;">
+    Ready to experience the warmth of Mahima Homestay? Get in touch with us directly — we'd love to host you.
+  </p>
+  <div class="contact-grid">
+    <div class="contact-card reveal" style="border-top: 4px solid var(--gold);">
+      <div class="icon">📞</div><h4>Call Us</h4>
+      <a href="tel:+919731443441" style="font-size: 1.2rem; font-weight: 600;">+91 97314 43441</a>
+    </div>
+    <div class="contact-card reveal" style="border-top: 4px solid var(--earth-light);">
+      <div class="icon">📞</div><h4>Alternative Number</h4>
+      <a href="tel:+919741882716" style="font-size: 1.1rem;">+91 97418 82716</a>
+    </div>
+    <div class="contact-card reveal">
+      <div class="icon">💬</div><h4>WhatsApp</h4>
+      <a href="https://wa.me/919731443441?text=Hello%20Mahima%20Homestay,%20I%20would%20like%20to%20book%20a%20stay." target="_blank">Chat with us</a>
+    </div>
+    <div class="contact-card reveal">
+      <div class="icon">✉️</div><h4>Email Us</h4>
+      <a href="mailto:mahimahomestay7@gmail.com">mahimahomestay7@gmail.com</a>
+    </div>
+  </div>
+  <a href="https://wa.me/919731443441?text=Hello%20Mahima%20Homestay,%20I%20would%20like%20to%20book%20a%20stay." target="_blank" class="book-btn reveal" style="background:#25D366;">Book Now via WhatsApp</a>
+  <a href="tel:+919731443441" class="book-btn reveal" style="margin-left: 1rem;">Book Now — Call Us</a>
+</section>
+
+<footer>
+  <p>&copy; 2025 <span>Mahima Homestay</span> · Bylukuppa, Karnataka · All rights reserved.</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
